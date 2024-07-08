@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alphabet Order Practice</title>
+    <style>
+      @import url("https://fonts.cdnfonts.com/css/sf-mono");
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+        width: 100vw;
+      }
+      .container {
+        text-align: center;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70%;
+      }
+      #feedbackMessage {
+        font-size: 1.5rem;
+        font-weight: bold;
+        height: 2rem;
+        margin-bottom: 1rem;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+      #topChar {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        font-family: "SF Mono", monospace;
+        font-weight: bold;
+      }
+      .bottomContainer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 1rem;
+        gap: 1rem;
+      }
+      #bottomChar {
+        font-size: 2rem;
+        font-family: "SF Mono", monospace;
+      }
+      button {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        width: 7rem;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="feedbackMessage"></div>
+      <div id="topChar">R</div>
+      <div class="bottomContainer">
+        <button onclick="checkOrder('before')">← Before</button>
+        <div id="bottomChar">P</div>
+        <button onclick="checkOrder('after')">After →</button>
+      </div>
+    </div>
+
+    <script>
+      const topChar = document.getElementById("topChar");
+      const bottomChar = document.getElementById("bottomChar");
+      const feedbackMessage = document.getElementById("feedbackMessage");
+
+      function getRandomChar() {
+        return String.fromCharCode(65 + Math.floor(Math.random() * 26));
+      }
+
+      function updateChars() {
+        topChar.textContent = getRandomChar();
+        bottomChar.textContent = getRandomChar();
+      }
+
+      function showFeedback(isCorrect) {
+        feedbackMessage.textContent = isCorrect ? "Correct!" : "Incorrect!";
+        feedbackMessage.style.color = isCorrect ? "green" : "red";
+        feedbackMessage.style.opacity = 1;
+        setTimeout(() => {
+          feedbackMessage.style.opacity = 0;
+        }, 1000);
+      }
+
+      function checkOrder(guess) {
+        const top = topChar.textContent;
+        const bottom = bottomChar.textContent;
+        const correct = top < bottom ? "before" : "after";
+
+        const isCorrect = guess === correct;
+        showFeedback(isCorrect);
+
+        if (!isCorrect) {
+          showFeedback(false);
+        }
+
+        setTimeout(updateChars, 1000);
+      }
+
+      updateChars();
+    </script>
+  </body>
+</html>
