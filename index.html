@@ -38,8 +38,8 @@
         height: 2rem;
         margin-bottom: 1rem;
         opacity: 0;
-        transition: opacity 0.15s ease-in-out;
-
+        filter: blur(15px);
+        transition: opacity 0.15s ease-in-out, filter 0.25s ease-in-out;
         font-family: "SF Mono", monospace;
       }
       #topChar {
@@ -59,7 +59,6 @@
         font-size: 2rem;
         font-family: "SF Mono", monospace;
         font-weight: bold;
-
         background-color: #f0f0f0;
         padding: 0.25rem 1.15rem;
         border-radius: 5px;
@@ -69,50 +68,38 @@
         font-size: 0.75rem;
         cursor: pointer;
         border: none;
-        /* background-color: #007bff; */
         color: white;
         border-radius: 5px;
         width: 6.75rem;
         font-family: "SF Mono", monospace;
       }
-      /* button:hover {
-        background-color: #0056b3;
-      } */
-
       .anchor-message {
         display: flex;
         flex-direction: column;
         align-items: center;
         margin-bottom: 1.5rem;
       }
-
       .anchor-message-text {
         opacity: 0.3;
         font-family: "SF Mono", monospace;
-
         margin: 0;
         margin-bottom: 0.25rem;
       }
-
       .anchor-message-svg {
         width: 1.5rem;
         height: 1.5rem;
         opacity: 0.3;
       }
-
       .fa-arrow-right {
         font-size: 0.65rem;
       }
-
       .fa-arrow-left {
         font-size: 0.65rem;
       }
-
       .button-before {
         background-color: #d9e9fd;
         color: #181c44;
       }
-
       .button-after {
         background-color: #f1e8fd;
         color: #6326a2;
@@ -171,8 +158,10 @@
         feedbackMessage.textContent = isCorrect ? "Correct!" : "Incorrect!";
         feedbackMessage.style.color = isCorrect ? "green" : "red";
         feedbackMessage.style.opacity = 1;
+        feedbackMessage.style.filter = "blur(0)";
         setTimeout(() => {
           feedbackMessage.style.opacity = 0;
+          feedbackMessage.style.filter = "blur(5px)";
         }, waitTimeout);
       }
 
