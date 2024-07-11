@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>the letters</title>
+    <script
+      src="https://kit.fontawesome.com/7d2900409e.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
     <style>
       @import url("https://fonts.cdnfonts.com/css/sf-mono");
       body {
@@ -11,7 +16,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        height: 100dvh;
         margin: 0;
         background-color: #f0f0f0;
         width: 100vw;
@@ -19,13 +24,13 @@
       .container {
         text-align: center;
         background-color: white;
-        padding: 2rem;
+        padding: 2rem 1.2rem;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 70%;
+        width: 80%;
       }
       #feedbackMessage {
         font-size: 1.5rem;
@@ -33,13 +38,14 @@
         height: 2rem;
         margin-bottom: 1rem;
         opacity: 0;
-        transition: opacity 0.3s ease-in-out;
+        transition: opacity 0.15s ease-in-out;
+
+        font-family: "SF Mono", monospace;
       }
       #topChar {
-        font-size: 3rem;
+        font-size: 2rem;
         margin-bottom: 1rem;
         font-family: "SF Mono", monospace;
-        font-weight: bold;
       }
       .bottomContainer {
         display: flex;
@@ -52,30 +58,90 @@
       #bottomChar {
         font-size: 2rem;
         font-family: "SF Mono", monospace;
+        font-weight: bold;
+
+        background-color: #f0f0f0;
+        padding: 0.25rem 1.15rem;
+        border-radius: 5px;
       }
       button {
         padding: 0.5rem 1rem;
-        font-size: 1rem;
+        font-size: 0.75rem;
         cursor: pointer;
         border: none;
-        background-color: #007bff;
+        /* background-color: #007bff; */
         color: white;
         border-radius: 5px;
-        width: 7rem;
+        width: 6.75rem;
+        font-family: "SF Mono", monospace;
       }
-      button:hover {
+      /* button:hover {
         background-color: #0056b3;
+      } */
+
+      .anchor-message {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .anchor-message-text {
+        opacity: 0.3;
+        font-family: "SF Mono", monospace;
+
+        margin: 0;
+        margin-bottom: 0.25rem;
+      }
+
+      .anchor-message-svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        opacity: 0.3;
+      }
+
+      .fa-arrow-right {
+        font-size: 0.65rem;
+      }
+
+      .fa-arrow-left {
+        font-size: 0.65rem;
+      }
+
+      .button-before {
+        background-color: #d9e9fd;
+        color: #181c44;
+      }
+
+      .button-after {
+        background-color: #f1e8fd;
+        color: #6326a2;
       }
     </style>
   </head>
   <body>
     <div class="container">
       <div id="feedbackMessage"></div>
+      <div class="anchor-message">
+        <p class="anchor-message-text">Anchor</p>
+        <div class="anchor-message-svg">
+          <iconify-icon
+            icon="tabler:arrow-narrow-down"
+            width="1.5rem"
+            height="1.5rem"
+            style="color: #062339"
+          ></iconify-icon>
+        </div>
+      </div>
       <div id="topChar">R</div>
       <div class="bottomContainer">
-        <button onclick="checkOrder('before')">← Before</button>
+        <button class="button-before" onclick="checkOrder('before')">
+          <i class="fa-solid fa-arrow-left"></i> Before
+        </button>
         <div id="bottomChar">P</div>
-        <button onclick="checkOrder('after')">After →</button>
+        <button class="button-after" onclick="checkOrder('after')">
+          After <i class="fa-solid fa-arrow-right"></i>
+        </button>
       </div>
     </div>
 
@@ -89,9 +155,17 @@
       }
 
       function updateChars() {
-        topChar.textContent = getRandomChar();
-        bottomChar.textContent = getRandomChar();
+        let top, bottom;
+        do {
+          top = getRandomChar();
+          bottom = getRandomChar();
+        } while (top === bottom);
+
+        topChar.textContent = top;
+        bottomChar.textContent = bottom;
       }
+
+      const waitTimeout = 500;
 
       function showFeedback(isCorrect) {
         feedbackMessage.textContent = isCorrect ? "Correct!" : "Incorrect!";
@@ -99,22 +173,18 @@
         feedbackMessage.style.opacity = 1;
         setTimeout(() => {
           feedbackMessage.style.opacity = 0;
-        }, 1000);
+        }, waitTimeout);
       }
 
       function checkOrder(guess) {
         const top = topChar.textContent;
         const bottom = bottomChar.textContent;
-        const correct = top < bottom ? "before" : "after";
+        const correct = top > bottom ? "before" : "after";
 
         const isCorrect = guess === correct;
         showFeedback(isCorrect);
 
-        if (!isCorrect) {
-          showFeedback(false);
-        }
-
-        setTimeout(updateChars, 1000);
+        setTimeout(updateChars, waitTimeout);
       }
 
       updateChars();
